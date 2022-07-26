@@ -1,0 +1,1 @@
+https://cursos.alura.com.br/course/vue-parte1/task/23872 => Adequando o template gerado
