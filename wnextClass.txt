@@ -1,1 +1,3 @@
-https://cursos.alura.com.br/course/vue-parte1/task/23872 => Adequando o template gerado
+https://cursos.alura.com.br/course/vue-parte1/task/23873 => O poder das diretivas
+
+"https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTwV4kVzT5McBdGSgqlVeRzubrNH_mOrrkKseDOGFURq20HmsrelEfMU7It",
