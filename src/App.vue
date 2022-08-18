@@ -8,13 +8,12 @@
 <script>
    export default   {
       data(){
-        return {
-          foto : {
-             titutlo:"Dog",
-             url:"https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTwV4kVzT5McBdGSgqlVeRzubrNH_mOrrkKseDOGFURq20HmsrelEfMU7It",
-             alt:"Foto de um dog"  
-          }
+        return {          
+          foto : []
         }
+      },
+      created(){
+        alert("Welcome");
       } 
    }
 </script>
