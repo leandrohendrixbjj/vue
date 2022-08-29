@@ -1,20 +1,26 @@
 <template>
   <div>
-     <h1>{{foto.titutlo}}</h1>
-     <img :src="foto.url" :alt="foto.alt">
+     <h1>{{titulo}}</h1>
+     <ul v-for="foto in fotos">
+       <li><img :src="foto.url" :alt="foto.alt"></li>
+     </ul>                    
   </div>
 </template>
-
+   
 <script>
-   export default   {
+   export default{
       data(){
-        return {          
-          foto : []
-        }
+         return {
+            titulo:"Dog",
+            fotos:[]  
+         }
       },
       created(){
-        alert("Welcome");
-      } 
+         this.$http.get('http://localhost:3000/v1/fotos')
+         .then(res => res.json())
+         .then(data => this.fotos = data)
+         .catch(err => console.log(err))  
+      }
    }
 </script>
 
