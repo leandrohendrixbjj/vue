@@ -1,8 +1,10 @@
 <template>
-  <div>
-     <h1>{{titulo}}</h1>
-     <ul v-for="foto in fotos">
-       <li><img :src="foto.url" :alt="foto.alt"></li>
+  <div class="corpo">
+     <h1 class="centralizado">{{titulo}}</h1>
+     <ul class="lista-fotos">
+       <li class="lista-fotos-item" v-for="foto in fotos">
+         <img :src="foto.url" :alt="foto.alt">
+       </li>
      </ul>                    
   </div>
 </template>
@@ -11,7 +13,7 @@
    export default{
       data(){
          return {
-            titulo:"Dog",
+            titulo:"AluraPIC",
             fotos:[]  
          }
       },
@@ -25,30 +27,21 @@
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  .centralizado {
+    text-align: center;
+  }
 
-h1, h2 {
-  font-weight: normal;
-}
+  .corpo {
+    font-family: Helvetica, sans-serif;
+    margin: 0 auto;
+    width: 96%;
+  }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
+  .lista-fotos {
+    list-style: none;
+  }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
+  .lista-fotos .lista-fotos-item {
+    display: inline-block;
+  }
 </style>
