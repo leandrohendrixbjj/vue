@@ -1,3 +1,2 @@
-https://cursos.alura.com.br/course/vue-parte1/task/23219 => $http e promises
+https://cursos.alura.com.br/course/vue-parte1/task/23234 => $http e promises
 
-"https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTwV4kVzT5McBdGSgqlVeRzubrNH_mOrrkKseDOGFURq20HmsrelEfMU7It",
