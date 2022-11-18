@@ -1,2 +1,3 @@
-https://cursos.alura.com.br/course/vue-parte1/task/23234 => $http e promises
+https://cursos.alura.com.br/course/vue-parte1/task/23351
 
+=> Single Page Application
