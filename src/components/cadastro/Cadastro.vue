@@ -5,7 +5,7 @@
 <script>
 </script>
 
-<style>
+<style scoped>
     .centralizado {
         text-align: center;
     }
