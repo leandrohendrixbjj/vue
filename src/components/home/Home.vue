@@ -7,7 +7,7 @@
       <li v-for="foto of fotosComFiltro" class="lista-fotos-item">
         <meu-painel :titulo="foto.titulo">                    
           <img-responsive :url="foto.url" :titulo="foto" />
-          <meu-botao tipo="button" rotulo="REMOVER" @click.native="remove(foto)" />
+          <meu-botao tipo="button" rotulo="REMOVER" @btnActive="remove(foto)"/>
         </meu-painel>  
       </li>
     </ul>
@@ -44,9 +44,7 @@
     },
     methods:{
       remove(foto){
-        if(confirm('Confirma?')) {  
-          alert(`Remover a foto ${foto.titulo}?`)
-        }
+        alert(`Remover a foto ${foto.titulo}`)        
       }
     },
     created() {      
