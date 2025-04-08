@@ -12,13 +12,22 @@
 </template>
 
 <script>
-export default {
+
+import Painel from "./components/shared/painel/Painel.vue"
+
+export default {  
+  
+  components: {
+    'meu-painel': Painel
+  },
+
   data() {
     return {
       titulo: "AluraPic",
       fotos: []
     };
   },
+  
   created() {
     fetch("http://localhost:3000/v1/fotos")
       .then((resp) => resp.json())
