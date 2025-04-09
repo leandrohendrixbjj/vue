@@ -2,7 +2,7 @@
   <div class="container">
     <h1 class="titulo">{{ titulo }}</h1>
     <ul class="fotos">
-      <li v-for="foto in fotos">
+      <li v-for="foto in fotos" :key="foto.id">
         <meu-painel :titulo="foto.titulo">
           <img class="painel-img" :src="foto.url" :alt="foto.titulo" />
         </meu-painel>
