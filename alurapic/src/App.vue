@@ -1,8 +1,15 @@
 <template>
   <div class="container">
     <h1 class="titulo">{{ titulo }}</h1>
+    <div class="seek-foto">
+      <input type="text" 
+             v-on:input="filtro = $event.target.value"
+             placeholder="Digite algo..." 
+             class="styled-input" />
+      {{ filtro }}
+    </div>
     <ul class="fotos">
-      <li v-for="foto in fotos" :key="foto.id">
+      <li v-for="foto in fotosComFiltro" :key="foto.id">
         <meu-painel :titulo="foto.titulo">
           <img class="painel-img" :src="foto.url" :alt="foto.titulo" />
         </meu-painel>
@@ -24,10 +31,25 @@ export default {
   data() {
     return {
       titulo: "AluraPic",
-      fotos: []
+      fotos: [],
+      filtro:''
     };
   },
-  
+
+  computed: {
+    fotosComFiltro() {
+      if (this.filtro){
+        const value = this.filtro.toLowerCase()
+        
+        return this.fotos.filter((data) =>
+          data.titulo.toLowerCase().includes(value)
+        )        
+      }      
+      return this.fotos
+      
+    }
+  },
+    
   created() {
     fetch("http://localhost:3000/v1/fotos")
       .then((resp) => resp.json())
@@ -67,4 +89,27 @@ export default {
   gap: 10px;
   list-style: none;
 }
+
+.seek-foto {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.styled-input {
+  width: 80%;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.styled-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
 </style>
