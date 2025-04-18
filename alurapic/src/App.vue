@@ -10,7 +10,7 @@
     </div>
     <ul class="fotos">
       <li v-for="foto in fotosComFiltro" :key="foto.id">
-        <meu-painel :titulo="foto.titulo">
+        <meu-painel :titulo="foto.titulo" :visivel="foto.visivel">
           <img class="painel-img" :src="foto.url" :alt="foto.titulo" />
         </meu-painel>
       </li>
@@ -53,11 +53,10 @@ export default {
   created() {
     fetch("http://localhost:3000/v1/fotos")
       .then((resp) => resp.json())
-      .then((data) => {
-        console.log(data);
-        this.fotos = data;
+      .then((data) => {        
+        this.fotos = data.map(foto => Object.assign({}, foto, { visivel: true }))
       })
-      .catch((error) => console.error("Error fetching dog images:", error));
+      .catch((error) => console.error("Error fetching dog images:", error))
   }
 };
 </script>

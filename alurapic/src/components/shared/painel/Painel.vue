@@ -1,13 +1,22 @@
 <template>
   <div class="painel">
-    <h2 class="painel-titulo">{{ titulo }}</h2>
-    <slot class="painel-conteudo"></slot>
+    <h2 class="painel-titulo"
+        @click="fotoVisivel">{{ titulo }}</h2>
+    <div v-show="visivel">
+      <slot class="painel-conteudo"></slot>
+    </div>  
   </div>
 </template>
 
 <script>
 export default {  
-  props: ['titulo']
+  props: ['titulo', 'visivel'],
+
+  methods: {
+    fotoVisivel() {
+      this.visivel = !this.visivel
+    }
+  }
 }
 </script>
 
