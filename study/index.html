@@ -15,7 +15,14 @@
             <form @submit.prevent="addMessages">
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="nome" v-model="nome" placeholder="Digite seu nome">
+                    <input type="text" 
+                            v-on:input="filtro = $event.target.value" 
+                            class="styled-input"
+                            id="nome" 
+                            v-model="nome"
+                            placeholder="Digite algo...">
+                            {{ filtro }}
+                    
                 </div>
 
                 <div class="mb-3">
@@ -29,9 +36,9 @@
             <div class="card">
                 <div class="card-header">{{titulo}}</div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item" v-for="data in fotos">
-                        <div class="painel">
-                            <h2>{{data.titulo}}</h2>
+                    <li class="list-group-item" v-for="data in fotosComFiltro">
+                        <h2 @click="showFotos(data)">{{data.titulo}}</h2>
+                        <div class="painel" v-show="data.visivel">
                             <img :src="data.url" :alt="data.titulo">
                         </div>
                     </li>
@@ -49,16 +56,21 @@
         const {
             createApp
         } = Vue;
-        // Componente: bloco de código HTML,CSS,JS... no Vue tudo e componente, botão, tela etc..
-        // O que é: hook do ciclo de vida do componente
-        // Executado: logo depois que o componente é criado e antes do DOM ser criado
-        // Usar: Inicializar variáveis e trabahar com componenetes antes de iniciar a pagina
+
         createApp({
+
+            // Componente: bloco de código HTML,CSS,JS... no Vue tudo e componente, botão, tela etc..
+            // O que é: hook do ciclo de vida do componente
+            // Executado: automáticamente, logo depois que o componente é criado e antes do DOM ser criado
+            // Usar: Inicializar variáveis e trabahar com componenetes antes de iniciar a pagina
+            // 1. beforeCreate
+            // 2. ✅ data (é configurado aqui)
             data() {
                 return {
                     titulo: 'Fotos Dog',
                     fotos: [],
-                    nomeList: []
+                    nomeList: [],
+                    filtro: ''
                 }
             },
 
@@ -74,19 +86,48 @@
                 fetch('http://localhost:3000/v1/fotos')
                     .then((res) => res.json())
                     .then((data) => {
-                        this.fotos = data
+                        this.fotos = data.map((foto) => ({
+                            ...foto,
+                            visivel: true
+                        }))
                     })
             },
 
-            methods: {
-                addMessages() {
+            // O que é: são funções que devem ser utilizadas para definir regra e ações
+            // Usar:são usadas para respoder eventos de click, submit forms...
+            // Usar: não são chamadas automáticamente, durante o ciclo de vida, usuário deve provocar essa chamada
+            // através de click ou subimit um form
+            methods: {                
+                addMessages() {                    
                     this.nomeList.push({
                         nome: this.nome
                     })
                     this.nome = null
+                },
+
+                showFotos(foto) {
+                    foto.visivel = !foto.visivel
                 }
-            }
+            },
+            
+            // O que é: função último na manipulação de dados já disponivels, ótimo para cache.
+            // Usar: criar lógicas com base nos dados existentes, como somas, filtragens ou formatações. 
+            computed: {
+                
+                fotosComFiltro() {                    
+                    if (this.filtro) {
+                        const value = this.filtro.toLowerCase()
+
+                        return this.fotos.filter((data) =>
+                            data.titulo.toLowerCase().includes(value)
+                        )
+                    }
+                    return this.fotos
+
+                }
+            },
 
         }).mount('#app')
     </script>
+
 </html>
