@@ -7,8 +7,8 @@
     </div>
     <ul class="fotos">
       <li v-for="foto in fotosComFiltro" :key="foto.id">
-        <meu-painel :titulo="foto.titulo" :visivel="foto.visivel">
-          <img class="painel-img" :src="foto.url" :alt="foto.titulo" />
+        <meu-painel :titulo="foto.titulo" :visivel="foto.visivel">           
+          <my-img :foto="foto" />
         </meu-painel>
       </li>
     </ul>
@@ -16,12 +16,14 @@
 </template>
 
 <script>
-  import Painel from "./components/shared/painel/Painel.vue"
+  import Painel from './components/shared/painel/Painel.vue'
+  import Imagem from './components/shared/img/Imagem.vue'
 
   export default {
 
     components: {
-      'meu-painel': Painel
+      'meu-painel': Painel,
+      'my-img': Imagem
     },
 
     data() {

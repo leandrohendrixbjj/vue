@@ -38,12 +38,5 @@
     margin: 0;
     padding: 10px;
     text-transform: uppercase;
-  }
-
-  .painel-img {
-    width: 100%;
-    max-width: 200px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  }
+  }  
 </style>
