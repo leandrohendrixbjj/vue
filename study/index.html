@@ -2,132 +2,146 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- Bootstrap 5 CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 
 <body class="bg-light py-5">
-    <div id="app">
-        <div class="container mt-4">
-            <form @submit.prevent="addMessages">
-                <div class="mb-3">
-                    <label for="nome" class="form-label">Nome</label>
-                    <input type="text" 
-                            v-on:input="filtro = $event.target.value" 
-                            class="styled-input"
-                            id="nome" 
-                            v-model="nome"
-                            placeholder="Digite algo...">
-                            {{ filtro }}
-                    
-                </div>
+  <div class="container mt-4" id="app">
+    <h1 class="text-center">{{ titulo }}</h1>
+    <form @submit.prevent="envioFormulario">
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome</label>
+        <input type="text" 
+               v-on:input="filtro = $event.target.value"
+               class="form-control" 
+               id="nome" 
+               v-model="nome"
+               placeholder="Digite algo..." />
+               {{filtro}}
+      </div>
 
-                <div class="mb-3">
-                    <label for="comentario" class="form-label">Lists</label>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item" v-for="data in nomeList">{{data.nome}}</li>
-                    </ul>
+      <div class="mb-3">
+        <label class="form-label">Lists</label>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" v-for="data in nomeList" :key="data">
+                {{ data }}                
+            </li>
+        </ul>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+
+    <div class="card mt-4">
+      <div class="card-header">Fotos Dog</div>
+      <div class="card-body">
+        <div class="row g-3">
+          <!-- Fotos serão exibidas aqui -->
+          <div class="col-6 mx-auto">
+            <div class="card h-100">
+              <div class="card-body align-items-center d-flex flex-column">
+                <h5 class="card-title">Título da Foto</h5>
+              </div>
+              <div class="row g-3">
+                <div 
+                  class="col-6" 
+                  v-for="foto in fotosComFiltro" 
+                  :key="foto.id"
+                >
+                  <div class="card h-100">
+                    <div class="card-body text-center">
+                      <h5   
+                        class="card-title"
+                        @dblclick="hideFoto(foto)"
+                        >{{ foto.titulo }}                        
+                      </h5>
+                    </div>
+                    <div class="ratio ratio-4x3" v-show="foto.visivel">
+                      <img 
+                        :src="foto.url" 
+                        :alt="foto.titulo" 
+                        class="img-fluid object-fit-cover w-100 h-100 rounded" 
+                        style="object-position: center;" 
+                      />
+                    </div>
+                  </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Enviar</button>
-            </form>
-            <div class="card">
-                <div class="card-header">{{titulo}}</div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item" v-for="data in fotosComFiltro">
-                        <h2 @click="showFotos(data)">{{data.titulo}}</h2>
-                        <div class="painel" v-show="data.visivel">
-                            <img :src="data.url" :alt="data.titulo">
-                        </div>
-                    </li>
-                </ul>
+              </div>
             </div>
+          </div>
+          <!-- Repita os blocos acima para outras fotos -->
         </div>
+      </div>
     </div>
-    <!-- Bootstrap JS (opcional, para funcionalidades como modal/toast) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </div>
 
-    <!-- Vue 3 -->
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-        const {
-            createApp
-        } = Vue;
+  <!-- Vue 3 CDN -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const { createApp } = Vue;
 
-        createApp({
+    createApp({
 
-            // Componente: bloco de código HTML,CSS,JS... no Vue tudo e componente, botão, tela etc..
-            // O que é: hook do ciclo de vida do componente
-            // Executado: automáticamente, logo depois que o componente é criado e antes do DOM ser criado
-            // Usar: Inicializar variáveis e trabahar com componenetes antes de iniciar a pagina
-            // 1. beforeCreate
-            // 2. ✅ data (é configurado aqui)
-            data() {
-                return {
-                    titulo: 'Fotos Dog',
-                    fotos: [],
-                    nomeList: [],
-                    filtro: ''
-                }
-            },
+      data() {
+        return {
+          titulo: 'FOTOS DOG',
+          fotoList: [],
+          filtro: null,
+          nomeList: [],
+          nome: null
+        };
+      },
 
-            // O que é: hook do ciclo de vida do componente
-            // Executado: automáticamente, logo depois que o componente é criado em tela e antes do DOM ser criado. 
-            // Usar: Chamadas API, acessar this, 
-            // Não usar: refs, document.querySelector
-            // Obs: criado depois que data já existe: 
-            // 1. beforeCreate
-            // 2. ✅ data (é configurado aqui)
-            // 3. created
-            created() {
-                fetch('http://localhost:3000/v1/fotos')
-                    .then((res) => res.json())
-                    .then((data) => {
-                        this.fotos = data.map((foto) => ({
-                            ...foto,
-                            visivel: true
-                        }))
-                    })
-            },
+      created() {
+        fetch('http://localhost:3000/v1/fotos')
+          .then(res => res.json())
+          .then(data => {
+            this.fotoList = data.map(data => ({
+              ...data,
+              visivel: true,
+            }));
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      },
 
-            // O que é: são funções que devem ser utilizadas para definir regra e ações
-            // Usar:são usadas para respoder eventos de click, submit forms...
-            // Usar: não são chamadas automáticamente, durante o ciclo de vida, usuário deve provocar essa chamada
-            // através de click ou subimit um form
-            methods: {                
-                addMessages() {                    
-                    this.nomeList.push({
-                        nome: this.nome
-                    })
-                    this.nome = null
-                },
+      computed: {
+        fotosComFiltro() {
+            if (this.filtro) {
+                const inputData = this.filtro.toLowerCase()
+                return this.fotoList.filter(foto => {
+                    return foto.titulo.toLowerCase().includes(inputData)
+                })
+            }
+            return this.fotoList
+        }
+     },
 
-                showFotos(foto) {
-                    foto.visivel = !foto.visivel
-                }
-            },
-            
-            // O que é: função último na manipulação de dados já disponivels, ótimo para cache.
-            // Usar: criar lógicas com base nos dados existentes, como somas, filtragens ou formatações. 
-            computed: {
-                
-                fotosComFiltro() {                    
-                    if (this.filtro) {
-                        const value = this.filtro.toLowerCase()
+      methods: {
+        hideFoto(foto){
+            foto.visivel = !foto.visivel;
+        },
 
-                        return this.fotos.filter((data) =>
-                            data.titulo.toLowerCase().includes(value)
-                        )
-                    }
-                    return this.fotos
+        envioFormulario() {
+            if (this.nome) {
+                this.nomeList.push(this.nome);
+                this.nome = null;
+            }
+            console.log(this.nomeList);
+        }
+       }
 
-                }
-            },
 
-        }).mount('#app')
-    </script>
+    }).mount('#app');
+  </script>
+</body>
 
 </html>

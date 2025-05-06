@@ -1,6 +1,6 @@
 <template>
   <div class="painel">
-    <h2 class="painel-titulo" @click="fotoVisivel">{{ titulo }}</h2>
+    <h2 class="painel-titulo" @dblclick="fotoVisivel">{{ titulo }}</h2>
     <div v-show="visivel">
       <slot class="painel-conteudo"></slot>
     </div>
