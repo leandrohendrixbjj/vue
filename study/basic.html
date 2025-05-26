@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vue 3 Basic</title>
+
+  <style>
+    /* v-cloak: evita que o conteúdo "pisque" antes do Vue montar */
+    [v-cloak] {
+      display: none;
+    }
+  </style>  
+</head>
+ 
+<!-- Vue.js app content -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<body class="bg-light py-5">  
+  <div id="app" v-cloak class="container mt-4">
+    {{greeting}}
+    
+    <!-- v-model -->
+    <input type="text" v-model="greeting" class="form-control mb-3" placeholder="Type a greeting message" />
+    
+    <!-- vif: not display html element in DOM -->
+    <div v-if="isVisible">
+      <span class="badge bg-primary">You can see me if <b>isVisible is true</b></span>
+    </div>
+    
+    <div v-else-if="isVisible2">
+      <span class="badge bg-primary">You can see me if <b>isVisible2 is true and isVisible is false</b></span>
+    </div>
+
+    <div v-else="isVisible">
+      <span class="badge bg-primary">You can see if <b>both above are false</b></span>
+    </div>
+
+    <!-- vshow: display like a none-->
+    <div v-show="isVisible">
+      <span class="badge bg-primary">You can see me with v-show</span>
+    </div>
+
+  </div>       
+  
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          greeting: 'Welcome to Vue',
+          isVisible: false,    
+          isVisible2: false,       
+        };
+      },
+    })
+    app.mount('#app')
+  </script>
+</body>
+
+</html>
