@@ -13,6 +13,12 @@
             <li v-for="foto in fotosComFiltro" :key="foto.id">
                 <meu-painel :titulo="foto.titulo" :visivel="foto.visivel">
                     <my-img :foto="foto" />
+                    <meu-botao 
+                        tipo="button" 
+                        rotulo="Excluir"
+                        :foto-id="foto.titulo"
+                        @excluir="removerFoto"
+                         />
                 </meu-painel>
             </li>
         </ul>
@@ -22,12 +28,14 @@
 <script>
     import Painel from '../shared/painel/Painel.vue'
     import Imagem from '../shared/img/Imagem.vue'
+    import Botao from '../shared/botao/Botao.vue'
 
     export default {
 
         components: {
             'meu-painel': Painel,
-            'my-img': Imagem
+            'my-img': Imagem,
+            'meu-botao': Botao
         },
 
         data() {
@@ -41,10 +49,10 @@
         created() {
             fetch("http://localhost:3000/v1/fotos")
                 .then((resp) => resp.json())
-                .then((data) => {
+                .then((data) => {                    
                     this.fotos = data.map(foto => Object.assign({}, foto, {
                         visivel: true
-                    }))
+                    }))                    
                 })
                 .catch((error) => console.error("Error fetching dog images:", error))
         },
@@ -61,7 +69,14 @@
                 return this.fotos
 
             }
+        },
+
+        methods: {
+            removerFoto(id) {
+                this.fotos = this.fotos.filter(foto => foto._id !== id);
+            }
         }
+
     };
 </script>
 

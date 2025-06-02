@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* v-cloak: evita que o conteúdo "pisque" antes do Vue montar */
+    [v-cloak] {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" class="container">
+    <h1 class="mt-4">{{welcomeMessage}}</h1>
+
+    <div v-if="isVisible" class="container mt-4">
+      <span class="badge bg-primary">V-IF</span>
+    </div>
+
+    <div v-else-if="isVisible2" class="container mt-4">
+      <span class="badge bg-primary">V-ELSE-IF</span>
+    </div>
+
+    <!-- Ambos acima são false então esse será impresso -->
+    <div v-else class="container mt-4">
+      <span class="badge bg-primary">ELSE OF V-IF</span>
+    </div>
+
+    <!-- v-show tem um display: none -->
+    <div v-show="isVisible" class="container mt-4">
+      <span class="badge bg-primary">V-SHOW</span>
+    </div>
+    
+  </div>
+
+  
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          welcomeMessage: 'Welcome to Vue',
+          isVisible: false,
+          isVisible2: false
+        }
+      }
+    })
+    app.mount('#app')
+  </script>
+</body>
+</html>
