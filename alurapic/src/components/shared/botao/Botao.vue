@@ -31,11 +31,7 @@ export default {
           console.error("Erro ao excluir foto:", err);
           alert("Erro ao excluir a foto.");
         });
-    },
-
-    xura() {
-      alert(this.fotoId)
-    }
+    },    
   }
 }
 </script>
