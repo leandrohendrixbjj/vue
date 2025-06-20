@@ -15,6 +15,16 @@
       display: none;
     }
 
+    .centralized-box {
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 8px;
+      width: 50%;
+      margin: auto;
+      margin-bottom: 5px;
+    }
+
     /* CSS simples para a lista */
     .pokemon-item {
       padding: 10px 15px;
@@ -52,17 +62,20 @@
   <div id="app" v-cloak>
     <div class="container mt-5">
       <h2 class="text-center mb-4">Meus Pokémons Favoritos</h2>
+      <div>
+        <input 
+          type="text" 
+          id="nome" 
+          class="form-control centralized-box" 
+          placeholder="Pokemon name..."
+          @input="nome = $event.target.value" v-model="nome" />
+        <span>{{nome}}</span>
+      </div>
 
       <div v-if="pokemons.length > 0">
-        <div v-for="(pokemon, index) in pokemons" :key="index">
-          
-          <div class="pokemon-item" v-show="pokemon.active">
-            <span class="pokemon-name" @click="active(pokemon)">
-              {{ pokemon.name }}
-            </span>
-            <span class="pokemon-url ms-3">{{ pokemon.url }}</span>
-          </div>  
-
+        <div class="pokemon-item" v-for="(pokemon, index) in filterPokemons" :key="index">
+          <span class="pokemon-name">{{ pokemon.name }}</span>
+          <span class="pokemon-url">{{ pokemon.url }}</span>
         </div>
       </div>
       <div v-else class="alert alert-warning text-center">
@@ -75,19 +88,35 @@
 
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
-  <!-- 
-    Methods: Nesse exemplo usamos um map no retorno da api e incluímos um atributo
-    nome visível, nele informamos valor true
+  <!--
+    Computed: Não está dentro do ciclo de vida do vue, mas ela é invocada 
+    automaticamente qualquer uma de suas dependências reativas mudar em data()
 
-    A FN Active, recebe o objeto pokemon e consegue ativar ou desativar um atributo
+    Uso: 
+      1- Formatar ou Combinar Dados para Exibição
+      2- Filtrar, Ordenar ou Transformar Listas (Arrays)
+      3- Calcular Valores Derivados de Dados Numéricos ou Lógicos
   -->
 
   <script>
     const app = Vue.createApp({
       data() {
         return {
+          nome: null,
           pokemons: [],
-          url: 'https://pokeapi.co/api/v2/pokemon?limit=5',
+          nameList: [],
+          url: 'https://pokeapi.co/api/v2/pokemon?limit=10',
+        }
+      },
+
+      computed: {
+        filterPokemons() {
+          if (this.nome) {
+            return this.pokemons.filter(data => {              
+              return data.name.toLowerCase().includes(this.nome.toLowerCase())
+            })
+          }                    
+          return this.pokemons
         }
       },
 
@@ -101,23 +130,13 @@
             return response.json()
           })
           .then(data => {
-            this.pokemons = data.results.map(data => ({
-              ...data,
-              active: true
-            }))
+            this.pokemons = data.results;
             console.log('Pokémons carregados:', this.pokemons)
           })
           .catch(error => {
             console.error('Erro ao buscar os Pokémons:', error)
           })
-      },
-
-      methods: {
-        active(pokemon) {
-          pokemon.active = !pokemon.active;
-        }
-
-      }
+      }      
     })
     app.mount("#app")
   </script>

@@ -54,15 +54,9 @@
       <h2 class="text-center mb-4">Meus Pokémons Favoritos</h2>
 
       <div v-if="pokemons.length > 0">
-        <div v-for="(pokemon, index) in pokemons" :key="index">
-          
-          <div class="pokemon-item" v-show="pokemon.active">
-            <span class="pokemon-name" @click="active(pokemon)">
-              {{ pokemon.name }}
-            </span>
-            <span class="pokemon-url ms-3">{{ pokemon.url }}</span>
-          </div>  
-
+        <div class="pokemon-item" v-for="(pokemon, index) in pokemons" :key="index">
+          <span class="pokemon-name">{{ pokemon.name }}</span>
+          <span class="pokemon-url">{{ pokemon.url }}</span>
         </div>
       </div>
       <div v-else class="alert alert-warning text-center">
@@ -75,13 +69,6 @@
 
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
-  <!-- 
-    Methods: Nesse exemplo usamos um map no retorno da api e incluímos um atributo
-    nome visível, nele informamos valor true
-
-    A FN Active, recebe o objeto pokemon e consegue ativar ou desativar um atributo
-  -->
-
   <script>
     const app = Vue.createApp({
       data() {
@@ -91,7 +78,7 @@
         }
       },
 
-      created() {
+      created() {        
         fetch(this.url)
           .then(response => {
 
@@ -101,23 +88,13 @@
             return response.json()
           })
           .then(data => {
-            this.pokemons = data.results.map(data => ({
-              ...data,
-              active: true
-            }))
+            this.pokemons = data.results;
             console.log('Pokémons carregados:', this.pokemons)
           })
           .catch(error => {
             console.error('Erro ao buscar os Pokémons:', error)
           })
       },
-
-      methods: {
-        active(pokemon) {
-          pokemon.active = !pokemon.active;
-        }
-
-      }
     })
     app.mount("#app")
   </script>
